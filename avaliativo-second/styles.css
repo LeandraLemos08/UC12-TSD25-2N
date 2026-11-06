@@ -1,0 +1,294 @@
+/* Variáveis: cores e medidas usadas em vários lugares */
+:root {
+    --bg-app: #f4f8fc;
+    --bg-panel: #ffffff;
+    --bg-soft: #eceff3;
+    --border: #d9dee5;
+    --text: #1c1c1e;
+    --muted: #8a8f98;
+    --blue: #4a9df8;
+    --red: #ed2b3a;
+    --like: #f03e4e;
+    --grad: linear-gradient(90deg, #f9b11a 0%, #f4511e 55%, #d81b60 100%);
+    --radius: 10px;
+    --font: "Inter", "Segoe UI", system-ui, sans-serif;
+  }
+  
+  /* Reset: tira margens padrão e usa border-box */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  ul { list-style: none; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; border: 0; background: none; }
+  button { cursor: pointer; }
+  svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  
+  /* Fundo azul da página */
+  body {
+    font-family: var(--font);
+    color: var(--text);
+    background: linear-gradient(135deg, #a9c6e0 0%, #7fa8cf 100%);
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 40px 24px;
+  }
+  
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  
+  /* Janela principal: sidebar à esquerda + conteúdo à direita */
+  .app {
+    width: 100%;
+    max-width: 1200px;
+    height: min(92vh, 920px);
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    background: var(--bg-app);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(20, 50, 90, .35);
+  }
+  
+  /* Avatares (fotos redondas): tamanhos e borda vermelha */
+  .avatar { border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; }
+  .avatar__img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+  .avatar--ring { border: 2px solid var(--red); padding: 2px; background: #fff; }
+  .avatar--sm { width: 30px; height: 30px; }
+  .avatar--md { width: 40px; height: 40px; }
+  .avatar--lg { width: 56px; height: 56px; }
+  .avatar--xl { width: 96px; height: 96px; border-width: 3px; padding: 4px; }
+  
+  /* Barra lateral (aside) */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 24px 18px;
+    border-right: 1px solid var(--border);
+    background: var(--bg-app);
+    overflow-y: auto;
+  }
+  
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo__icon { width: 30px; height: 30px; }
+  .logo__text { font-family: "Grand Hotel", cursive; font-size: 1.7rem; line-height: 1; }
+  
+  /* Perfil: foto, nome e números */
+  .profile { text-align: center; margin-top: 44px; }
+  .profile .avatar { margin: 0 auto; }
+  .profile__user { font-size: 1.3rem; font-weight: 400; margin-top: 22px; }
+  .profile__name { color: var(--muted); margin-top: 4px; }
+  
+  /* Posts / Followers / Following */
+  .stats { display: flex; justify-content: space-between; margin-top: 30px; padding: 0 6px; }
+  .stats__item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .stats__item strong { font-weight: 400; font-size: 1.15rem; }
+  .stats__item span { color: var(--muted); font-size: .95rem; }
+  
+  /* Sugestões para você */
+  .suggestions { margin-top: 56px; }
+  .suggestions__header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
+  .suggestions__title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .suggestions__all { color: var(--muted); font-size: .85rem; }
+  
+  .suggestions__list { display: flex; flex-direction: column; gap: 14px; }
+  .suggestion { display: flex; align-items: center; gap: 14px; }
+  .suggestion__info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .suggestion__info strong { font-weight: 400; font-size: 1rem; }
+  .suggestion__info span { color: var(--muted); font-size: .92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .is-faded { color: #d4d9df; }
+  .follow { color: var(--blue); font-size: .88rem; }
+  
+  /* Settings e Logout no fim da barra */
+  .sidebar__footer { margin-top: auto; padding-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .sidebar__link { display: flex; align-items: center; gap: 14px; color: #3a3d42; }
+  .sidebar__link svg { width: 26px; height: 26px; }
+  
+  /* Conteúdo principal */
+  .content { display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+  
+  /* Barra superior: busca, menu e botões */
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 36px 32px 20px 28px;
+  }
+  
+  /* Campo de busca */
+  .search { position: relative; width: 240px; flex-shrink: 0; }
+  .search__input {
+    width: 100%;
+    height: 48px;
+    padding: 0 44px 0 18px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 1.05rem;
+  }
+  .search__input::placeholder { color: #5b5f66; }
+  .search__btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #555; }
+  .search__btn svg { width: 18px; height: 18px; }
+  
+  /* Menu de navegação com ícones */
+  .nav { display: flex; gap: 8px; }
+  .nav__item { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; color: #555; position: relative; }
+  .nav__item:hover { background: #e8edf3; }
+  .nav__item.is-active { background: #e9eef4; color: #000; }
+  .nav__item.is-active svg { fill: #000; stroke: #000; }
+  .nav__item.is-active::after {
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    width: 6px;
+    height: 4px;
+    border-radius: 3px;
+    background: var(--red);
+  }
+  
+  /* Mensagens, notificações e botão New post */
+  .actions { margin-left: auto; display: flex; align-items: center; gap: 18px; }
+  .actions__icon { display: grid; place-items: center; color: #333; }
+  .btn-new {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 48px;
+    padding: 0 24px 0 16px;
+    background: var(--grad);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.05rem;
+    border-radius: 6px;
+  }
+  .btn-new svg { width: 28px; height: 28px; stroke-width: 1.6; }
+  
+  /* Feed: stories e posts */
+  .feed {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 32px 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  
+  /* Stories */
+  .stories {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 28px 18px;
+  }
+  .stories__list { display: flex; gap: 30px; overflow-x: auto; }
+  .story { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: .9rem; flex-shrink: 0; }
+  .story .avatar--lg { width: 84px; height: 84px; }
+  
+  /* Post: foto à esquerda e comentários à direita */
+  .post {
+    display: grid;
+    grid-template-columns: 1fr 390px;
+    min-height: 560px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .post--short { min-height: 150px; }
+  
+  /* Foto do post */
+  .post__media { position: relative; overflow: hidden; min-height: 280px; }
+  .post__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  
+  /* Lado direito do post */
+  .post__side { display: flex; flex-direction: column; min-width: 0; border-left: 1px solid var(--border); }
+  
+  .post__header { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .post__author { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .post__author strong { font-weight: 500; font-size: 1.05rem; }
+  .post__author span { color: var(--muted); }
+  .post__more { color: #333; letter-spacing: 1px; font-size: 1rem; }
+  
+  /* Lista de comentários */
+  .comments { flex: 1; overflow-y: auto; padding: 20px 20px 10px; display: flex; flex-direction: column; gap: 22px; }
+  .comment { display: flex; align-items: flex-start; gap: 14px; }
+  .comment .avatar--sm { width: 42px; height: 42px; }
+  .comment__body { flex: 1; min-width: 0; line-height: 1.35; }
+  .comment__body p { font-size: 1.02rem; color: #333; }
+  .comment__body strong { font-weight: 600; color: #000; }
+  .comment__body small { display: flex; gap: 14px; color: var(--muted); font-size: .85rem; margin-top: 4px; }
+  .comment__like { color: #333; padding-top: 4px; }
+  .comment__like svg { width: 14px; height: 14px; }
+  
+  /* Curtidas, comentários, compartilhar e salvar */
+  .post__footer { background: #efefef; padding: 14px 16px 12px; }
+  .post__actions { display: flex; align-items: center; gap: 16px; }
+  .act { display: flex; align-items: center; gap: 6px; font-size: 1.05rem; color: #222; }
+  .act svg { width: 22px; height: 22px; }
+  .act--liked { color: var(--like); }
+  .act--liked svg { fill: var(--like); stroke: var(--like); }
+  .act--save { margin-left: auto; }
+  .post__time { display: block; margin-top: 8px; color: var(--muted); font-size: .72rem; text-transform: uppercase; }
+  
+  /* Campo para adicionar comentário */
+  .comment-form { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-top: 1px solid var(--border); background: var(--bg-panel); }
+  .comment-form__emoji { color: #444; }
+  .comment-form__emoji svg { width: 34px; height: 34px; stroke-width: 1.5; }
+  .comment-form__input { flex: 1; height: 48px; padding: 0 16px; background: var(--bg-soft); border-radius: 6px; }
+  .comment-form__input::placeholder { color: #8a8f98; }
+  .comment-form__post { color: #a9cdf3; font-size: 1.15rem; padding: 0 8px; }
+  .comment-form__post:hover { color: var(--blue); }
+  
+  /* Telas médias: deixa tudo um pouco menor */
+  @media (max-width: 1100px) {
+    .app { grid-template-columns: 260px 1fr; }
+    .search { width: 190px; }
+    .post { grid-template-columns: 1fr 340px; }
+    .btn-new { padding: 0 16px 0 12px; }
+  }
+  
+  /* Tablet: a sidebar vira uma faixa no topo e o post empilha */
+  @media (max-width: 900px) {
+    body { padding: 0; place-items: stretch; }
+    .app { grid-template-columns: 1fr; height: 100vh; max-width: none; border-radius: 0; }
+  
+    .sidebar { flex-direction: row; align-items: center; gap: 16px; padding: 12px 16px; border-right: 0; border-bottom: 1px solid var(--border); overflow: visible; }
+    .logo__text { display: none; }
+    .profile { display: flex; align-items: center; gap: 12px; margin-top: 0; text-align: left; }
+    .profile .avatar { margin: 0; }
+    .avatar--xl { width: 48px; height: 48px; border-width: 2px; padding: 2px; }
+    .profile__user { margin-top: 0; font-size: 1rem; }
+    .profile__name, .suggestions { display: none; }
+    .stats { margin: 0 0 0 auto; gap: 18px; }
+    .stats__item span { display: none; }
+    .sidebar__footer { margin: 0; padding: 0; flex-direction: row; gap: 10px; }
+    .sidebar__link { font-size: 0; }
+  
+    .topbar { flex-wrap: wrap; padding: 16px; }
+    .search { order: 3; width: 100%; }
+    .feed { padding: 8px 16px 24px; }
+  
+    .post { grid-template-columns: 1fr; }
+    .post__media { aspect-ratio: 4 / 3; }
+    .post__side { border-left: 0; border-top: 1px solid var(--border); }
+    .comments { max-height: 320px; }
+  }
+  
+  /* Celular: esconde alguns itens e diminui os stories */
+  @media (max-width: 560px) {
+    .stats, .actions__icon { display: none; }
+    .btn-new { font-size: 0; gap: 0; padding: 0 12px; }
+    .stories__list { gap: 18px; }
+    .story .avatar--lg { width: 64px; height: 64px; }
+  }
+  
+  /* Transições suaves (só para quem não desativou animações) */
+  @media (prefers-reduced-motion: no-preference) {
+    .nav__item, .follow, .comment-form__post { transition: background-color .15s, color .15s; }
+  }
